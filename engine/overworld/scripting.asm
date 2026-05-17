@@ -1240,31 +1240,33 @@ Script_memcall:
 	; fallthrough
 
 ScriptCall:
-; BUG: ScriptCall can overflow wScriptStack and crash (see docs/bugs_and_glitches.md)
 
-	push de
 	ld hl, wScriptStackSize
-	ld e, [hl]
-	inc [hl]
-	ld d, 0
-	ld hl, wScriptStack
-	add hl, de
-	add hl, de
-	add hl, de
-	pop de
-	ld a, [wScriptBank]
-	ld [hli], a
-	ld a, [wScriptPos]
-	ld [hli], a
-	ld a, [wScriptPos + 1]
-	ld [hl], a
-	ld a, b
-	ld [wScriptBank], a
-	ld a, e
-	ld [wScriptPos], a
-	ld a, d
-	ld [wScriptPos + 1], a
-	ret
+	ld a, [hl]
+	cp 5
+	ret nc
+ 	push de
+ 	inc [hl]
+	ld e, a
+ 	ld d, 0
+ 	ld hl, wScriptStack
+ 	add hl, de
+ 	add hl, de
+ 	add hl, de
+ 	pop de
+ 	ld a, [wScriptBank]
+ 	ld [hli], a
+ 	ld a, [wScriptPos]
+ 	ld [hli], a
+ 	ld a, [wScriptPos + 1]
+ 	ld [hl], a
+ 	ld a, b
+ 	ld [wScriptBank], a
+ 	ld a, e
+ 	ld [wScriptPos], a
+ 	ld a, d
+ 	ld [wScriptPos + 1], a
+ 	ret
 
 CallCallback::
 	ld a, [wScriptBank]

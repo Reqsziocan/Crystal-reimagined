@@ -411,11 +411,9 @@ UsedSurfScript:
 	writevar VAR_MOVEMENT
 
 	special UpdatePlayerSprite
-	special PlayMapMusic
-; step into the water (slow_step DIR, step_end)
-	special SurfStartStep
-	applymovement PLAYER, wMovementBuffer
-	end
+ 	special PlayMapMusic
+ 	special SurfStartStep
+ 	end
 
 .stubbed_fn
 	farcall StubbedTrainerRankings_Surf
@@ -1450,8 +1448,10 @@ FishFunction:
 	jr z, .fail
 	call GetFacingTileCoord
 	call GetTilePermission
-	cp WATER_TILE
-	jr z, .facingwater
+ 	cp WATER_TILE
+	jr nz, .fail
+	farcall CheckFacingObject
+	jr nc, .facingwater
 .fail
 	ld a, $3
 	ret

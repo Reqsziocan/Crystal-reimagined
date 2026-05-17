@@ -555,8 +555,8 @@ TryObjectEvent:
 	push bc
 	ld de, 3
 	ld hl, ObjectEventTypeArray
-	call IsInArray
 	jr nc, .nope
+	call IsInArray
 	pop bc
 
 	inc hl

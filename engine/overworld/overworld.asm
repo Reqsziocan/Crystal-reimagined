@@ -365,7 +365,9 @@ LoadSpriteGFX:
 	ret
 
 .LoadSprite:
+	push bc
 	call GetSprite
+	pop bc
 	ld a, l
 	ret
 
